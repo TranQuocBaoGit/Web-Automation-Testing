@@ -16,7 +16,9 @@ class LoginPage:
     USER_SETTING = '//*[@id="user-menu-toggle"]'
     LOGOUT_BUTTON = '//*[@id="carousel-item-main"]/a[9]'
 
-    def login(self, username, password):
+    FORM = '//*[@id="login"]'
+
+    def login(self, username, password, screenshot_path):
         # Clear username field
         self.driver.find_element(By.XPATH, self.USERNAME_FIELD).clear()
         time.sleep(2)
@@ -30,6 +32,11 @@ class LoginPage:
         if password != None:
             self.driver.find_element(By.XPATH, self.PASSWORD_FIELD).send_keys(password)
             time.sleep(2)
+
+        # Save test screenshot before process
+        if screenshot_path != "skip":
+            login_form = self.driver.find_element(By.XPATH, self.FORM)
+            login_form.screenshot(screenshot_path)
 
         # Click login and wait for load
         self.driver.find_element(By.XPATH, self.LOGIN_BUTTON).click()
@@ -50,4 +57,8 @@ class LoginPage:
 
     def login_success(self):
         # Return error message if login fail by checking if URL change
+        if not (self.driver.current_url == "https://school.moodledemo.net/login/index.php"):
+            print("Result: Login successfully")
+        else:
+            print("Result: Fail to login")
         return not (self.driver.current_url == "https://school.moodledemo.net/login/index.php")

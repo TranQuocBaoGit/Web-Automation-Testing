@@ -3,5 +3,7 @@ venv
 .vscode
 testcase/.pytest_cache
 testcase/__pycache__
+testcase/test_example.py
+pages/example.py
 pages/__pycache__
 utilities/__pycache__

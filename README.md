@@ -17,6 +17,7 @@ python3 -m pip install openpyxl
 python -m venv venv
 venv\Scripts\Activate
 pip install selenium
+pip install Pillow
 ```
 
 To deactivate virtual environment
