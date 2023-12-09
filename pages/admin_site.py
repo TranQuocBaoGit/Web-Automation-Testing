@@ -76,7 +76,6 @@ class AdminSitePage:
             time.sleep(5)
 
 
-
     def create_user_success(self):
         # Return error message if create user fail by checking if URL change
         if "https://school.moodledemo.net/admin/user.php" in self.driver.current_url:
@@ -84,3 +83,71 @@ class AdminSitePage:
         else:
             print("Result: Fail to create new user")
         return ("https://school.moodledemo.net/admin/user.php" in self.driver.current_url)
+
+
+
+    CREATE_COURSE_BUTTON = '//*[@id="linkcourses"]/div/div[1]/div[2]/ul/li[3]/a'
+
+    COURSE_FULL_NAME_INPUT = '//*[@id="id_fullname"]'
+    COURSE_SHORT_NAME_INPUT = '//*[@id="id_shortname"]'
+    COURSE_CATEGORY_DROPDOWN = '/html/body/div[3]/div[3]/div/div[3]/div/section/div/form/fieldset[1]/div[2]/div[3]/div[2]/div[3]/span'
+
+    COURSE_CATEGORY_CHOICE = '/html/body/div[3]/div[3]/div/div[3]/div/section/div/form/fieldset[1]/div[2]/div[3]/div[2]/ul'
+    DELETE_COURSE_CATEGORY = '/html/body/div[3]/div[3]/div/div[3]/div/section/div/form/fieldset[1]/div[2]/div[3]/div[2]/div[2]/span'
+
+    SAVE_AND_DISPLAY_COURSE_BUTTON = '//*[@id="id_saveanddisplay"]'
+
+    FULL_NAME_ERROR = '//*[@id="id_error_fullname"]'
+    SHORT_NAME_ERROR = '//*[@id="id_error_shortname"]'
+    CATEGORY_ERROR = '//*[@id="id_error_category"]'
+
+
+    def create_course(self,  course_full_name, course_short_name, course_category, screenshot_path):
+        # Click create course
+        self.driver.find_element(By.XPATH, self.CREATE_COURSE_BUTTON).click()
+        time.sleep(5)
+
+        if course_full_name != None:
+            # Enter full course name
+            self.driver.find_element(By.XPATH, self.COURSE_FULL_NAME_INPUT).send_keys(course_full_name)
+            time.sleep(2)
+
+        if course_short_name != None:
+            # Enter short course name
+            self.driver.find_element(By.XPATH, self.COURSE_SHORT_NAME_INPUT).send_keys(course_short_name)
+            time.sleep(2)
+
+        if course_category != None:
+            # Click category dropdown
+            self.driver.find_element(By.XPATH, self.COURSE_CATEGORY_DROPDOWN).click()
+            time.sleep(2)
+
+            # Find all the choice
+            course_category_choice = self.driver.find_element(By.XPATH, self.COURSE_CATEGORY_CHOICE)
+            time.sleep(2)
+
+            # Click choice
+            choice_path = f'//li[contains(text(), "{course_category}")]'
+            course_category_choice.find_element(By.XPATH, choice_path).click()
+            time.sleep(2)
+        else:
+            # Delete default course category
+            self.driver.find_element(By.XPATH, self.DELETE_COURSE_CATEGORY).click()
+            time.sleep(2)
+
+        # Save and wait for load
+        self.driver.find_element(By.XPATH, self.SAVE_AND_DISPLAY_COURSE_BUTTON).click()
+        time.sleep(10)
+
+        # Save screenshot
+        self.driver.save_screenshot(screenshot_path)
+        time.sleep(2)
+
+
+    def create_course_success(self):
+        # Return error message if create user fail by checking if URL change
+        if "https://school.moodledemo.net/course/edit.php" not in self.driver.current_url:
+            print("Result: Create new course successfully.")
+        else:
+            print("Result: Fail to create new course.")
+        return ("https://school.moodledemo.net/course/edit.php" not in self.driver.current_url)
