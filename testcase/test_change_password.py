@@ -46,7 +46,7 @@ class TestChangePassword:
         time.sleep(5)
 
     @pytest.mark.parametrize("current_password, new_password, repeat_new_password, valid", read_data_from_excel(FILENAME, SHEET), ids=get_testcase_name(FILENAME, SHEET))
-    def test_create_course(self, set_up_session, set_up_change_password, current_password, new_password, repeat_new_password, valid, request):
+    def test_change_password(self, set_up_session, set_up_change_password, current_password, new_password, repeat_new_password, valid, request):
         preference_page = PreferencePage(self.driver)
 
         screenshot_path = f'./screenshots/change_password/{request.node.name}.png'

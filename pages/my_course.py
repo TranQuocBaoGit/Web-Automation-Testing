@@ -104,3 +104,42 @@ class MyCoursePage:
         print("Result: Successfully graded.")
         
         return "Successfully graded."
+    
+
+
+    ENROLL_USER_BUTTON = '/html/body/div[2]/div[5]/div/div[3]/div/section/div/div[1]/div/div[2]/div/div/form/div/input[1]'
+    USER_FIELD = '/html/body/div[7]/div[2]/div/div/div[2]/form/fieldset/div[2]/div[1]/div[2]/div[3]/input'
+    USER_CHOICE = '/html/body/div[7]/div[2]/div/div/div[2]/form/fieldset/div[2]/div[1]/div[2]/ul/li/span/span[1]'
+
+    CONFIRM_ENROLL_USER_BUTTON = '/html/body/div[4]/div[2]/div/div/div[3]/button[2]'
+
+
+    def enroll_student(self, student_name, screenshot_path):
+
+        # Click enroll user
+        self.driver.find_element(By.XPATH, self.ENROLL_USER_BUTTON).click()
+
+        # Enter user name
+        self.driver.find_element(By.XPATH, self.USER_FIELD).send_keys(student_name)
+        time.sleep(5)
+
+        self.choose_user()
+        time.sleep(5)
+
+        # Click enroll button
+        self.driver.find_element(By.XPATH, self.CONFIRM_ENROLL_USER_BUTTON).click()
+        time.sleep(2)
+
+        # Take screenshot
+        self.driver.save_screenshot(screenshot_path)
+        time.sleep(2)
+
+
+    def choose_user(self):
+        try:
+            # Choose first user
+            self.driver.find_element(By.XPATH, self.USER_CHOICE).click()
+            time.sleep(2)
+        except:
+            pass
+

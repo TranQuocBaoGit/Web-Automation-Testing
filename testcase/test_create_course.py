@@ -6,7 +6,7 @@ from utilities.read_xl import read_data_from_excel, get_testcase_name
 import time
 
 @pytest.mark.usefixtures("set_up")
-class TestAddUser:
+class TestCreateCourse:
 
     FILENAME = "./testdata/data.xlsx"
     SHEET =  "create_course"
